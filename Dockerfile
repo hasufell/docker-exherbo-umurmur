@@ -1,22 +1,30 @@
-FROM        hasufell/gentoo-amd64-paludis:latest
-MAINTAINER  Julian Ospald <hasufell@gentoo.org>
+FROM        hasufell/exherbo:latest
+MAINTAINER  Julian Ospald <hasufell@posteo.de>
+
+
+COPY ./config/paludis /etc/paludis
+
 
 ##### PACKAGE INSTALLATION #####
 
-# copy paludis config
-COPY ./config/paludis /etc/paludis
+RUN chgrp paludisbuild /dev/tty && \
+	eclectic env update && \
+	source /etc/profile && \
+	cave sync && \
+	cave resolve -z -1 repository/hasufell -x && \
+	cave resolve -z -1 repository/python -x && \
+	cave resolve -z -1 repository/worr -x && \
+	cave resolve -z -1 repository/net -x && \
+	cave update-world -s umurmurset && \
+	cave resolve -ks -Sa -sa -B world -x -f --permit-old-version '*/*' && \
+	cave resolve -ks -Sa -sa -B world -x --permit-old-version '*/*' && \
+	cave purge -x && \
+	cave fix-linkage -x && \
+	rm -rf /var/cache/paludis/distfiles/* \
+		/var/tmp/paludis/build/*
 
-# update world with our USE flags
-RUN chgrp paludisbuild /dev/tty && cave resolve -c world -x
+RUN eclectic config accept-all
 
-# install umurmurset set
-RUN chgrp paludisbuild /dev/tty && cave resolve -c umurmurset -x
-
-# install tools set
-RUN chgrp paludisbuild /dev/tty && cave resolve -c tools -x
-
-# update etc files... hope this doesn't screw up
-RUN etc-update --automode -5
 
 ################################
 

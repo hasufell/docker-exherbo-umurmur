@@ -1,7 +1,7 @@
 ## Installation
 
 ```sh
-docker build -t hasufell/gentoo-umurmur .
+docker build -t hasufell/exherbo-umurmur .
 ```
 
 ## Configuration
@@ -56,7 +56,7 @@ docker run -ti -d \
 	-e username=murmur \
 	-e groupname=murmur \
 	-p 64738:64738 \
-	hasufell/gentoo-umurmur
+	hasufell/exherbo-umurmur
 ```
 
 
