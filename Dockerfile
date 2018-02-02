@@ -16,10 +16,10 @@ RUN chgrp paludisbuild /dev/tty && \
 	cave resolve -z -1 repository/worr -x && \
 	cave resolve -z -1 repository/net -x && \
 	cave update-world -s umurmurset && \
-	cave resolve -ks -Sa -sa -B world -x -f --permit-old-version '*/*' && \
-	cave resolve -ks -Sa -sa -B world -x --permit-old-version '*/*' && \
+	cave resolve -ks -Sa -sa -B world -x -f --permit-old-version '*/*' --without sys-apps/paludis && \
+	cave resolve -ks -Sa -sa -B world -x --permit-old-version '*/*' --without sys-apps/paludis && \
 	cave purge -x && \
-	cave fix-linkage -x && \
+	cave fix-linkage -x -- --without sys-apps/paludis && \
 	rm -rf /var/cache/paludis/distfiles/* \
 		/var/tmp/paludis/build/*
 
